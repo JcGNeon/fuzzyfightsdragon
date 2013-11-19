@@ -71,6 +71,21 @@ class Golem(object):
             else:
                 print "Invalid input. Try again.\n"
 
+            print "The golem dropped a health potion. Consume? (y/n)"
+
+            answer = raw_input()
+
+            if((answer == 'y') | (answer == 'Y') | (answer == "yes") | (answer == "Yes")):
+                Dave.hp += 10
+                if(Dave.hp > 250):
+                    extrahp = Dave.hp - 250
+                    Dave.hp -= extrahp
+
+            elif((answer == 'n') | (answer == 'N') | (answer == "no") | (answer == "No")):
+                pass
+            else:
+                print "Invalid input. Try again.\n"
+
 class Lobby_Manager(object):
     def __init__(self):
         self.hp = 5
