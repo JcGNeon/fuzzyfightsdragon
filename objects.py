@@ -16,8 +16,9 @@ class Dave(object):
             self.has_axe = False
             if(self.has_dagger == True):
                 self.damage += 10
-            self.has_dagger = False
-            self.damage -= 10
+            attack()
+            self.has_dagger = False # so the attack damage doesn't stack
+            self.damage -= 10 # when switching between weapons after a strike
         elif(self.carry_dagger == False):
             print "You don't have the dagger.\n"
     def use_sword():
@@ -27,6 +28,7 @@ class Dave(object):
             self.has_dagger = False
             if(self.has_sword == True):
                 self.damage += 50
+            attack()
             self.has_sword = False
             self.damage -= 50
         elif(self.carry_sword == False):
@@ -38,12 +40,14 @@ class Dave(object):
             self.has_sword = False
             if(self.has_axe == True):
                 self.damage += 25
+            attack()
             self.has_axe = False
             self.damage -= 25
         elif(self.carry_axe == False):
             print "You don't have the axe.\n"
     def attack():
         print "Attacking...\n"
+        object.hp -= self.damage
     def die():
         if(self.hp <= 0):
             self.dead = True
@@ -101,26 +105,77 @@ class Lobby_Manager(object):
             self.dead = True
             print "You killed an innocent bystander. You bastard!"
 
-class Wolve(object):
+class Wolf(object):
     def __init__(self):
         self.hp = 25
         self.damage = 20
         self.dead = False
+    def attack():
+        Dave.hp -= self.damage
+        print "You have been struck. You have %d HP remaining.\n" % Dave.hp
+    def die():
+        if(self.hp <= 0):
+            self.dead = True
+            print "You have killed the wolf. It dropped a health potion. Consume? (y/n)"
+            answer = raw_input()
+
+            if((answer == 'y') | (answer == 'Y') | (answer == "yes") | (answer == "Yes")):
+                Dave.hp += 10
+                if(Dave.hp > 250):
+                    extrahp = Dave.hp - 250
+                    Dave.hp -= extrahp
+
+            elif((answer == 'n') | (answer == 'N') | (answer == "no") | (answer == "No")):
+                pass
+            else:
+                print "Invalid input. Try again.\n"
+
 
 class Dragon(object):
     def __init__(self):
         self.hp = 1000
         self.damage = 25
         self.dead = False
+    def attack():
+        Dave.hp -= self.damage
+        print "You have been struck. You have %d HP remaining.\n" % Dave.hp
+    def die():
+        if(self.hp <= 0):
+            self.dead = True
+            print "You have killed the Dragon. You win!"
 
 class Unstable_rocks(object):
     def __init__(self):
         self.hp = 50
         self.damage = 900
         self.collapsed = False
+    def die():
+        if(self.hp <= 0):
+            self.collapsed = True
+            Dragon.hp -= self.damage
+            print "The rocks fell upon the dragon, severely injuring it. The dragon has %d HP remaining.\n" % Dragon.hp
 
 class Sword_holder(object):
     def __init__(self):
         self.hp = 50
         self.damage = 50
         self.dead = False
+    def attack():
+        Dave.hp -= self.damage
+        print "You have been struck. You have %d HP remaining.\n" % Dave.hp
+    def die():
+        if(self.hp <= 0):
+            self.dead = True
+            print "You have killed the Sword Holder. He dropped a health potion. Consume? (y/n)"
+            answer = raw_input()
+
+            if((answer == 'y') | (answer == 'Y') | (answer == "yes") | (answer == "Yes")):
+                Dave.hp += 10
+                if(Dave.hp > 250):
+                    extrahp = Dave.hp - 250
+                    Dave.hp -= extrahp
+
+            elif((answer == 'n') | (answer == 'N') | (answer == "no") | (answer == "No")):
+                pass
+            else:
+                print "Invalid input. Try again.\n"
